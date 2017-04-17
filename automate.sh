@@ -10,7 +10,7 @@ do
         python2 genconfig.py $nclients "exp${nclients}_${repeat}"
         ./run_all.sh
 
-        sleep 3
+        sleep 180
         ./killall.sh
         rm *.conf
     done
