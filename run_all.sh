@@ -1,11 +1,11 @@
 #!/bin/sh
 
 echo "Cleaning server 0"
-ssh dserver-0.lb-ldd-diss.safer.isi.deterlab.net 'sudo pkill dissent'
+ssh dtrustee-0.lb-ldd-diss.safer.isi.deterlab.net 'sudo pkill dissent'
 echo "Cleaning server 1"
-ssh dserver-1.lb-ldd-diss.safer.isi.deterlab.net 'sudo pkill dissent'
+ssh dtrustee-1.lb-ldd-diss.safer.isi.deterlab.net 'sudo pkill dissent'
 echo "Cleaning server 2"
-ssh dserver-2.lb-ldd-diss.safer.isi.deterlab.net 'sudo pkill dissent'
+ssh dtrustee-2.lb-ldd-diss.safer.isi.deterlab.net 'sudo pkill dissent'
 echo "Cleaning client 0"
 ssh dclient-0.lb-ldd-diss.safer.isi.deterlab.net 'sudo pkill dissent'
 echo "Cleaning client 1"
@@ -18,11 +18,11 @@ echo "Cleaning client 4"
 ssh dclient-4.lb-ldd-diss.safer.isi.deterlab.net 'sudo pkill dissent'
 
 echo "Running on server 0"
-ssh dserver-0.lb-ldd-diss.safer.isi.deterlab.net './dissent-simulation/dissent_exec server0.conf'
+ssh dtrustee-0.lb-ldd-diss.safer.isi.deterlab.net './dissent-simulation/dissent_exec server0.conf'
 echo "Running on server 1"
-ssh dserver-1.lb-ldd-diss.safer.isi.deterlab.net './dissent-simulation/dissent_exec server1.conf'
+ssh dtrustee-1.lb-ldd-diss.safer.isi.deterlab.net './dissent-simulation/dissent_exec server1.conf'
 echo "Running on server 2"
-ssh dserver-2.lb-ldd-diss.safer.isi.deterlab.net './dissent-simulation/dissent_exec server2.conf'
+ssh dtrustee-2.lb-ldd-diss.safer.isi.deterlab.net './dissent-simulation/dissent_exec server2.conf'
 echo "Running on client 0"
 ssh dclient-0.lb-ldd-diss.safer.isi.deterlab.net './dissent-simulation/dissent_exec client0.conf'
 if [ -f "client1.conf" ]; then
