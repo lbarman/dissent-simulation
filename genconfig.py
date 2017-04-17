@@ -5,7 +5,7 @@ import os
 from os.path import isfile, join
 
 #constants
-keyPath = "client_keys/private"
+keyPath = "keys/private"
 nClientMachines = 5
 nServerMachines = 3
 
@@ -25,8 +25,8 @@ def writeClientConfig(machineID, localKeys, logPrefix):
     file.write("round_type=\"null/csdcnet\"\n\n")
 
     file.write("auth=true\n")
-    file.write("path_to_private_keys=client_keys/private\n")
-    file.write("path_to_public_keys=client_keys/public\n\n")
+    file.write("path_to_private_keys=keys/private\n")
+    file.write("path_to_public_keys=keys/public\n\n")
 
 
     file.write("console=false\n")
@@ -48,8 +48,8 @@ def writeServerConfig(machineID, localKey, logPrefix):
     file.write("round_type=\"null/csdcnet\"\n\n")
 
     file.write("auth=true\n")
-    file.write("path_to_private_keys=server_keys/private\n")
-    file.write("path_to_public_keys=server_keys/public\n\n")
+    file.write("path_to_private_keys=keys/private\n")
+    file.write("path_to_public_keys=keys/public\n\n")
 
 
     file.write("console=false\n")
