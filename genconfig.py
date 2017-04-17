@@ -31,7 +31,7 @@ def writeClientConfig(machineID, localKeys, logPrefix):
 
     file.write("console=false\n")
     file.write("exit_tunnel=false\n")
-    file.write("log=\""+logPrefix+"_client"+str(machineID)+".log\"\n")
+    file.write("log=\"dissent_logs/"+logPrefix+"_client"+str(machineID)+".log\"\n")
     file.write("multithreading=true\n\n")
     file.close() 
 
@@ -54,7 +54,7 @@ def writeServerConfig(machineID, localKey, logPrefix):
 
     file.write("console=false\n")
     file.write("exit_tunnel=false\n")
-    file.write("log=\""+logPrefix+"_server"+str(machineID)+".log\"\n")
+    file.write("log=\"dissent_logs/"+logPrefix+"_server"+str(machineID)+".log\"\n")
     file.write("multithreading=true\n\n")
     file.close() 
 
