@@ -20,9 +20,9 @@ ssh dclient-4.lb-ldd-diss.safer.isi.deterlab.net 'sudo pkill dissent'
 echo "Running on server 0"
 ssh dtrustee-0.lb-ldd-diss.safer.isi.deterlab.net 'cd dissent-simulation && ./run.sh server0.conf'
 echo "Running on server 1"
-ssh dtrustee-1.lb-ldd-diss.safer.isi.deterlab.net 'cd dissent-simulation && ./run.sh server0.conf'
+ssh dtrustee-1.lb-ldd-diss.safer.isi.deterlab.net 'cd dissent-simulation && ./run.sh server1.conf'
 echo "Running on server 2"
-ssh dtrustee-2.lb-ldd-diss.safer.isi.deterlab.net 'cd dissent-simulation && ./run.sh server0.conf'
+ssh dtrustee-2.lb-ldd-diss.safer.isi.deterlab.net 'cd dissent-simulation && ./run.sh server2.conf'
 echo "Running on client 0"
 ssh dclient-0.lb-ldd-diss.safer.isi.deterlab.net 'cd dissent-simulation && ./run.sh client0.conf'
 if [ -f "client1.conf" ]; then
