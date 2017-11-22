@@ -2,6 +2,7 @@
 
 echo "Cleaning server 0"
 ssh dtrustee-0.lb-ldd-diss.safer.isi.deterlab.net 'sudo pkill dissent'
+ssh dclient-0.lb-ldd-diss.safer.isi.deterlab.net 'sudo pkill send_data'
 echo "Cleaning server 1"
 ssh dtrustee-1.lb-ldd-diss.safer.isi.deterlab.net 'sudo pkill dissent'
 echo "Cleaning server 2"
