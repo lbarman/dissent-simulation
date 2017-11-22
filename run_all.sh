@@ -8,6 +8,7 @@ echo "Cleaning server 2"
 ssh dtrustee-2.lb-ldd-diss.safer.isi.deterlab.net 'sudo pkill dissent'
 echo "Cleaning client 0"
 ssh dclient-0.lb-ldd-diss.safer.isi.deterlab.net 'sudo pkill dissent'
+ssh dclient-0.lb-ldd-diss.safer.isi.deterlab.net 'sudo pkill send_data'
 echo "Cleaning client 1"
 ssh dclient-1.lb-ldd-diss.safer.isi.deterlab.net 'sudo pkill dissent'
 echo "Cleaning client 2"
@@ -24,7 +25,7 @@ ssh dtrustee-1.lb-ldd-diss.safer.isi.deterlab.net 'cd dissent-simulation && ./ru
 echo "Running on server 2"
 ssh dtrustee-2.lb-ldd-diss.safer.isi.deterlab.net 'cd dissent-simulation && ./run.sh server2.conf'
 echo "Running on client 0"
-ssh dclient-0.lb-ldd-diss.safer.isi.deterlab.net 'cd dissent-simulation && ./run.sh client0.conf'
+ssh dclient-0.lb-ldd-diss.safer.isi.deterlab.net 'cd dissent-simulation && ./run.sh client0.conf && ./start_send_data.sh'
 if [ -f "client1.conf" ]; then
     echo "Running on client 1"
     ssh dclient-1.lb-ldd-diss.safer.isi.deterlab.net 'cd dissent-simulation && ./run.sh client1.conf'

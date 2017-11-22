@@ -28,6 +28,8 @@ def writeClientConfig(machineID, localKeys, logPrefix):
     file.write("path_to_private_keys=keys/private\n")
     file.write("path_to_public_keys=keys/public\n\n")
 
+    file.write("web_server=true\n")
+    file.write("web_server_url=http://127.0.0.1:8080\n")
 
     file.write("console=false\n")
     file.write("exit_tunnel=false\n")
@@ -67,6 +69,13 @@ nClients = int(sys.argv[1])
 logPrefix = str(sys.argv[2])
 
 print "Running master script for NCLIENTS =", nClients, ", LOGPREFIX = ", logPrefix
+
+os.system('rm -rf start_send_data.sh')
+file = open("start_send_data.sh", "w") 
+file.write("rm -rf " + logPrefix + "_send.log\n")
+file.write("./send_data.sh 1>" + logPrefix + "_send.log 2>&1 &\n")
+file.close()
+os.system('chmod ugo+x start_send_data.sh')
 
 #read all identities
 keysFiles = [f for f in os.listdir(keyPath) if isfile(join(keyPath, f))]
