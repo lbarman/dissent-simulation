@@ -10,7 +10,7 @@ function testIfReportingOK {
     fileName="$1"
     retries="$2"
     lastReportingNumber=$(cat "$fileName" | tail -n 1 | cut -d':' -f 4 | cut -d' ' -f 2)
-    if [ $lastReportingNumber -eq 0 ]; then
+    if [ "$lastReportingNumber" -eq 0 ]; then
         
         if [ $retries -lt $maxRetriesForOneBatch ]; then
 
