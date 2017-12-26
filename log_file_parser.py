@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import sys
+import json
 from datetime import datetime
 
 starting_time = None
@@ -29,11 +30,21 @@ def processFile(inFile, outFile):
 
         for line in lines:
 
-            print(line)
             line2 = ""
+            if "Debug - Got message" in line:
+                o = {}
+                o['_type'] = 'receive'
+                o['id'] = i
+                time = time_parse(line.split(" ")[0])
+                o['time'] = time
+                data = line.split(" ")[6].replace("\"", "")
+                o['data_id'] = data
+
+                events.append(o)
+
             if "Handling request for  QUrl" in line and "/session/send" in line:
                 o = {}
-                o['type'] = 'send'
+                o['_type'] = 'send'
                 o['id'] = i
                 time = time_parse(line.split(" ")[0])
                 o['time'] = time
@@ -41,9 +52,8 @@ def processFile(inFile, outFile):
                 o['url'] = url
                 o['data_id'] = ''
                 if '?' in url:
-                    o['data_id'] = url[url.find("?")+1:]
+                    o['data_id'] = url[url.find("?data=")+6:]
                 i += 1
-                print(o)
 
                 events.append(o)
 
@@ -53,27 +63,23 @@ def processFile(inFile, outFile):
 
                 phaseNo = line2[0:line2.find("\"")]
                 if "ending:" in line2 and "starting:" in line2:
-                    print(time)
                     parts = line2.split(" ");
                     stateEnded = parts[2].replace("\"", "")
                     stateStarted = parts[4].replace("\"", "")
                     o = {}
-                    o['type'] = 'phase'
+                    o['_type'] = 'phase'
                     o['id'] = i
                     o['time'] = time
                     o['phase'] = phaseNo
                     o['stateEnded'] = stateEnded
                     o['stateStarted'] = stateStarted
 
-                    if i>0:
-                        o['duration'] = o['time'] - events[i-1]['time']
                     events.append(o)
                     i+=1
-                    print(o)
 
     with open(outFile, "w") as file:
-        for line in linesOut:
-            file.write(line+"\n")
+        for line in events:
+            file.write(json.dumps(line, sort_keys=True)+"\n")
 
 
 if len(sys.argv) < 2:
