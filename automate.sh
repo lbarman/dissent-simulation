@@ -9,8 +9,14 @@ oneBatchSleepTime=180
 function testIfReportingOK {
     fileName="$1"
     retries="$2"
-    lastReportingNumber=$(cat "$fileName" | tail -n 1 | cut -d':' -f 4 | cut -d' ' -f 2)
-    if [ "$lastReportingNumber" -eq 0 ]; then
+    
+    # extracts the last sent id
+    #lastReportingNumber=$(cat "$fileName" | tail -n 1 | cut -d':' -f 4 | cut -d' ' -f 2)
+    
+    # extracts the last received id
+    lastReportingNumber=$(cat "$fileName" | grep "Got message" | tail -n 1 | cut -d':' -f 4 | cut -d' ' -f 2 | cut -d'"' -f 2 | sed 's/data//g')
+
+    if [ -z "$lastReportingNumber" ]; then
         
         if [ $retries -lt $maxRetriesForOneBatch ]; then
 
@@ -29,9 +35,9 @@ function testIfReportingOK {
     fi
 }
 
-for repeat in 0 1 #2 3 4 5 6 7 8 9
+for repeat in 0 1 2 3 4 5 6 7 8 9
 do
-    for nclients in 1 10 #20 30 40 50 60 70 80 90 100
+    for nclients in 1 10 20 30 40 50 60 70 80 90 100
     do
         echo "Starting for $nclients, repeat $repeat..." | tee automate.log
         python2 genconfig.py $nclients "exp${nclients}_${repeat}"
@@ -40,7 +46,7 @@ do
         sleep "$oneBatchSleepTime"
 
         echo -n "experiment running for $nclients, repeat $repeat... "
-        testIfReportingOK "exp${nclients}_${repeat}_send.log" 1
+        testIfReportingOK "exp${nclients}_${repeat}_client0.log" 10
 
         ./killall.sh
         rm *.conf
