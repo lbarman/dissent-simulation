@@ -13,17 +13,17 @@ set style line 6 linecolor rgb '#1E90FF' linetype 6 linewidth 3
 set logscale y
 set nologscale x
 
-set key top left
+set key top right
 
 set grid ytics xtics  # draw lines for each ytics and mytics
 set grid               # enable the grid
 
 #set xrange [0:30]
-set yrange [0.01:10]
+set yrange [0.01:50]
 
-set title "Latency"
-set xlabel "# Clients" offset 0,0.5
-set ylabel "End to end latency [s]" offset 1.7,0
+set title "End to end latency"
+set xlabel "Number of Clients" offset 0,0.5
+set ylabel "[s]" offset 1.7,0
 
 set datafile separator ","
 set bars large
