@@ -93,8 +93,21 @@ keyOnServerMachines[2] = "9cLwIW23_RAtmxbzAsA6Rd6_3ME="
 
 #dispatch each client on a machine
 currentMachine = 0
-for i in range(0, nClients):
-    keysOnClientMachines[currentMachine].append(keysFiles[i])
+shift = 0
+for client in range(0, nClients):
+    if client+shift >= len(keysFiles):
+        print "PANIC: Not enough keys! for client", client, "tried to fetch key", client+shift, "but only", len(keyFiles)
+        sys.exit(1)
+    nextClientKey = keysFiles[client+shift]
+    while nextClientKey == keyOnServerMachines[0] or nextClientKey == keyOnServerMachines[1] or nextClientKey == keyOnServerMachines[2]:
+        shift += 1
+        #print "Chosen key for client", client, "has been taken for some server, increasing shift to", shift
+        if client+shift >= len(keysFiles):
+            print "PANIC2: Not enough keys! for client", client, "tried to fetch key", client+shift, "but only", len(keyFiles)
+            sys.exit(1)
+        nextClientKey = keysFiles[client+shift]
+    #print "Client", client, "->", client+shift
+    keysOnClientMachines[currentMachine].append(nextClientKey)
     currentMachine = (currentMachine + 1) % nClientMachines
 
 #remove old config files
