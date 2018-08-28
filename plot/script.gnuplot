@@ -19,7 +19,7 @@ set grid ytics xtics  # draw lines for each ytics and mytics
 set grid               # enable the grid
 
 #set xrange [0:30]
-set yrange [0.01:50]
+set yrange [0.01:100]
 
 set title "End to end latency"
 set xlabel "Number of Clients" offset 0,0.5

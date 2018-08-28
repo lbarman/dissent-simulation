@@ -1,5 +1,6 @@
 _ = require('underscore');
 fs = require('fs')
+const util = require('util')
 
 fs.readFile('datapoints.json', 'utf8', function (err,inputData) {
   if (err) {
