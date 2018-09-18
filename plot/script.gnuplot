@@ -21,14 +21,14 @@ set grid               # enable the grid
 #set xrange [0:30]
 set yrange [0.01:100]
 
-set title "End to end latency"
+set title ""
 set xlabel "Number of Clients" offset 0,0.5
 set ylabel "[s]" offset 1.7,0
 
 set datafile separator ","
 set bars large
 
-plot 'prifi.gnudata' using 1:($2/1000):($3/1000) title "PriFi" with lp ls 1, \
-    'prifi.gnudata' using 1:($2/1000):($3/1000) notitle with errorbar ls 1 lw 1, \
-    'dissent.gnudata' using 1:($2/1000):($3/1000) title "Dissent" with lp ls 2, \
-    'dissent.gnudata' using 1:($2/1000):($3/1000) notitle with errorbar ls 2 lw 1
+plot 'dissent.gnudata' using 1:($2/1000):($3/1000) title "Dissent" with lp ls 2 dashtype 3, \
+    'dissent.gnudata' using 1:($2/1000):($3/1000) notitle with errorbar ls 2 lw 1, \
+    'prifi.gnudata' using 1:($2/1000):($3/1000) title "PriFi" with lp ls 1, \
+    'prifi.gnudata' using 1:($2/1000):($3/1000) notitle with errorbar ls 1 lw 1
