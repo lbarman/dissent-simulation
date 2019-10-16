@@ -9,7 +9,7 @@ keyPath = "keys/private"
 nClientMachines = 5
 nServerMachines = 3
 
-def writeClientConfig(machineID, localKeys, logPrefix):
+def writeClientConfig(machineID, localKeys, logPrefix, roundType):
     if len(localKeys) == 0:
         return
 
@@ -22,7 +22,7 @@ def writeClientConfig(machineID, localKeys, logPrefix):
     keys = ",".join(map(lambda elem : "\""+elem+"\"", localKeys))
     file.write("local_id="+keys+"\n")
     file.write("server_ids=\"QUTDkL8mYss2gBw-E2fx1GGAh2w=\",\"h8m9jFrEqu4bOcUBxYilGQMsYXE=\",\"9cLwIW23_RAtmxbzAsA6Rd6_3ME=\"\n")
-    file.write("round_type=\"null/csdcnet\"\n\n")
+    file.write("round_type=\""+roundType+"\"\n\n")
 
     file.write("auth=true\n")
     file.write("path_to_private_keys=keys/private\n")
@@ -38,7 +38,7 @@ def writeClientConfig(machineID, localKeys, logPrefix):
     file.close() 
 
 
-def writeServerConfig(machineID, localKey, logPrefix):
+def writeServerConfig(machineID, localKey, logPrefix, roundType):
     file = open("server"+str(machineID)+".conf", "w") 
     file.write("[general]\n")
     file.write("remote_endpoints=\"tcp://11.1.0.1:51230\",\"tcp://11.1.0.2:51230\",\"tcp://11.1.0.3:51230\"\n")
@@ -47,7 +47,7 @@ def writeServerConfig(machineID, localKey, logPrefix):
 
     file.write("local_id=\""+localKey+"\"\n")
     file.write("server_ids=\"QUTDkL8mYss2gBw-E2fx1GGAh2w=\",\"h8m9jFrEqu4bOcUBxYilGQMsYXE=\",\"9cLwIW23_RAtmxbzAsA6Rd6_3ME=\"\n")
-    file.write("round_type=\"null/csdcnet\"\n\n")
+    file.write("round_type=\""+roundType+"\"\n\n")
 
     file.write("auth=true\n")
     file.write("path_to_private_keys=keys/private\n")
@@ -61,14 +61,28 @@ def writeServerConfig(machineID, localKey, logPrefix):
     file.close() 
 
 
-if len(sys.argv) != 3:
-    print "1st argument must be NCLIENTS, 2nd must be LOGPREFIX"
-    sys.exit(1);
+if len(sys.argv) != 4:
+    print "1st argument must be NCLIENTS, 2nd must be LOGPREFIX, 3rd must be ROUNDTYPE"
+    sys.exit(1)
 
 nClients = int(sys.argv[1])
 logPrefix = str(sys.argv[2])
+roundType = str(sys.argv[3])
 
-print "Running master script for NCLIENTS =", nClients, ", LOGPREFIX = ", logPrefix
+#   null = Non-anonymized broadcast communication
+#   neff = Neff Shuffle
+#   neff/csdcnet = Neff Key Shuffle / CS DC-Net*
+#   null/csdcnet = null broadcast / CS DC-Net
+#   verif/csdcnet = Neff Key Shuffle / CS DC-net / Verif blame*
+#   verif = Verifiable DC-Net*
+
+ALLOWED_TYPES = ['null', 'neff', 'neff/csdcnet', 'null/csdcnet', 'verif/csdcnet', 'verif']
+
+if roundType not in ALLOWED_TYPES:
+    print("Unknown round type", roundType, "must be in", ALLOWED_TYPES)
+    sys.exit(1)
+
+print "Running master script for NCLIENTS=", nClients, "LOGPREFIX=", logPrefix, "ROUNDTYPE=", roundType
 
 os.system('rm -rf start_send_data.sh')
 file = open("start_send_data.sh", "w") 
@@ -122,6 +136,6 @@ for i in range(0, nServerMachines):
 
 #create a config file for each machine
 for i in range(0, nClientMachines):
-    writeClientConfig(i, keysOnClientMachines[i], logPrefix)
+    writeClientConfig(i, keysOnClientMachines[i], logPrefix, roundType)
 for i in range(0, nServerMachines):
-    writeServerConfig(i, keyOnServerMachines[i], logPrefix)
+    writeServerConfig(i, keyOnServerMachines[i], logPrefix, roundType)
