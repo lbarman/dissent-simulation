@@ -41,14 +41,15 @@ do
     do
         for nclients in 1 10 20 30 40 50 60 70 80 90 100
         do
-            echo "Starting for $roundType, $nclients, repeat $repeat..."
-            python2 genconfig.py $nclients "exp${nclients}_${repeat}" "$roundType"
+            logPrefix=$(echo "exp${nclients}_${repeat}_${roundType}" | tr / -)
+            echo "Starting for $roundType, $nclients, repeat $repeat (logPrefix ${logPrefix})..."
+            python2 genconfig.py $nclients "${logPrefix}" "$roundType"
             ./run_all.sh
 
             sleep "$oneBatchSleepTime"
 
-            echo -n "experiment running for $nclients, repeat $repeat... "
-            testIfReportingOK "exp${nclients}_${repeat}_client0.log" 10
+            echo -n "experiment running for $roundType, $nclients, repeat $repeat... (logPrefix ${logPrefix})"
+            testIfReportingOK "${logPrefix}_client0.log" 10
 
             ./killall.sh
             rm *.conf
